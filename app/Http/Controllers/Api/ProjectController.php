@@ -20,7 +20,7 @@ class ProjectController extends Controller
     public function show($slug)
     {
         try {
-            $post = Project::where('slug', $slug)->with('category', 'tags')->firstOrFail();
+            $post = Project::where('slug', $slug)->with('type', 'technologies')->firstOrFail();
             return $post;
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response([
