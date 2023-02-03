@@ -29,7 +29,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.types.create");
     }
 
     /**
@@ -40,7 +40,16 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        
+        $new_type = new Type();
+        $new_type->fill($data);
+        $new_type->slug = Str::slug($new_type->name);
+
+        $new_type->save();
+
+        return redirect()->route("admin.types.index")->with("message", "La tipologia è stata creata con successo!");
     }
 
     /**
