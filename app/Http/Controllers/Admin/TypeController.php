@@ -6,6 +6,7 @@ use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class TypeController extends Controller
 {
@@ -61,7 +62,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        //
+        return view("admin.types.edit", compact("type"));
     }
 
     /**
@@ -73,7 +74,13 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $data = $request->validated();
+
+        $type->slug = Str::slug($data["name"]);
+
+        $type->update($data);
+
+        return redirect()->route("admin.types.index")->with("message", "Il progetto $type->name è stato modificato con successo!");
     }
 
     /**
