@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TechnologyController;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +29,7 @@ Route::middleware('auth')->prefix("admin")->name("admin.")->group(function () {
 
     Route::resource("projects", ProjectController::class);
     Route::resource("types", TypeController::class);
+    Route::resource("technologies", TechnologyController::class);
 });
 
 require __DIR__.'/auth.php';
