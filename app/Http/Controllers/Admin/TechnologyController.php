@@ -71,7 +71,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view("admin.technologies.edit", compact("technology"));
     }
 
     /**
@@ -83,7 +83,13 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        $data = $request->validated();
+
+        $technology->slug = Str::slug($data["name"]);
+
+        $technology->update($data);
+
+        return redirect()->route("admin.technologies.index")->with("message", "La tecnologia $technology->name è stato modificato con successo!");
     }
 
     /**
