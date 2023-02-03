@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Technology;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class TechnologyController extends Controller
 {
@@ -27,7 +29,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.technologies.create");
     }
 
     /**
@@ -38,7 +40,16 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        
+        $new_tech = new Technology();
+        $new_tech->fill($data);
+        $new_tech->slug = Str::slug($new_tech->name);
+
+        $new_tech->save();
+
+        return redirect()->route("admin.technologies.index")->with("message", "La tecnologia è stata aggiunta con successo!");
     }
 
     /**
@@ -49,7 +60,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        //
+        return view("admin.technologies.show", compact("technology"));
     }
 
     /**
@@ -83,6 +94,9 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $tech_name = $technology->name;
+        $technology->delete();
+
+        return redirect()->route("admin.technologies.index")->with("message", "Il tipo $tech_name è stato eliminato!");
     }
 }
