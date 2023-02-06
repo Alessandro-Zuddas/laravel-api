@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Mail\NewProject;
 use App\Models\Technology;
 use App\Models\Type;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Illuminate\Support\Str;
@@ -65,6 +67,8 @@ class ProjectController extends Controller
         if( isset($data["technologies"]) ){
             $new_project->technologies()->sync($data["technologies"]);
         }
+
+        Mail::to("info@myportfolio.com")->send(new NewProject($new_project));
 
         return redirect()->route("admin.projects.index")->with("message", "Il progetto è stato creato con successo!");
     }
