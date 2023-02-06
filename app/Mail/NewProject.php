@@ -33,6 +33,7 @@ class NewProject extends Mailable
     public function envelope()
     {
         return new Envelope(
+            replyTo: "noreply@myportfolio.com",
             subject: 'New Project',
         );
     }
@@ -45,7 +46,7 @@ class NewProject extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.new-project',
         );
     }
 
