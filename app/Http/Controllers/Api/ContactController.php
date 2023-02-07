@@ -11,7 +11,6 @@ class ContactController extends Controller
 {
     public function email(Request $request){
 
-        return $request->all();
         Mail::to("info@myportfolio.com")->send(new NewContact($request->all()));
 
     }
